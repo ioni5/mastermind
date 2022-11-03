@@ -1,8 +1,14 @@
 @startuml mastermind
 
-class Mastermind {
+class App {
     + start():void
     + {static} main
+}
+
+App ..> Mastermind
+
+class Mastermind {
+    + start():void
 }
 
 Mastermind *--> Board
@@ -13,23 +19,33 @@ class Player {
 }
 
 class Board {
-    + isValid(Color[]):boolean
-    + decode(Color[]):void
+    + decode(ProposedCombination):void
 }
 
 Player --> Board
+Player ..> ProposedCombination
 
 Board *--> SecretCombination
 Board o--> "1..10" Result
+Board ..> ProposedCombination
+
+abstract class Combination {}
+Combination <|-- ProposedCombination
+Combination <|-- SecretCombination
+
 
 class SecretCombination {
-    + decode(Color[]):Result
+    + decode(ProposedCombination):Result
 }
-SecretCombination --> "4" Color
+Combination *--> "4" Color
+
+SecretCombination ..> ProposedCombination
+SecretCombination ..> Result
 
 class Result {
     + isSucess():boolean
 }
+Result --> ProposedCombination
 
 enum Color {}
 
