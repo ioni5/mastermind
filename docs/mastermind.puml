@@ -1,0 +1,36 @@
+@startuml mastermind
+
+class Mastermind {
+    + start():void
+    + {static} main
+}
+
+Mastermind *--> Board
+Mastermind *--> Player
+
+class Player {
+    + play():void
+}
+
+class Board {
+    + isValid(Color[]):boolean
+    + decode(Color[]):void
+}
+
+Player --> Board
+
+Board *--> SecretCombination
+Board o--> "1..10" Result
+
+class SecretCombination {
+    + decode(Color[]):Result
+}
+SecretCombination --> "4" Color
+
+class Result {
+    + isSucess():boolean
+}
+
+enum Color {}
+
+@enduml
